@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Tech Horizons</title>
+    <link rel="stylesheet" href="styles-articles.css">
+    <script src="z-articles-database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id') || '1';  // Affiche l'article avec l'identifiant '1' par défaut
+
+            const article = articles.find(article => article.id === articleId);
+
+            if (article) {
+                const articleContainer = document.getElementById('article-content');
+                articleContainer.innerHTML = `
+                    <h2>${article.title}</h2>
+                    <p class='p-intro'>${article.introduction}</p>
+                    <p><em>${article.date}</em></p>
+                    <img src="images/${article.image}" alt="${article.title}">
+                    ${article.content.map(paragraph => `<p>${paragraph}</p>`).join('')}
+                `;
+
+                const relatedArticlesContainer = document.getElementById('related-articles');
+                relatedArticlesContainer.innerHTML = '<h3>Explorer</h3>';
+                const randomArticleIds = getRandomArticleIds(3, article.id);
+                randomArticleIds.forEach(articleId => {
+                    const relatedArticle = articles.find(article => article.id === articleId);
+                    if (relatedArticle) {
+                        const relatedArticleElement = document.createElement('div');
+                        relatedArticleElement.classList.add('related-article');
+
+                        relatedArticleElement.innerHTML = `
+                            <a href="article.html?id=${relatedArticle.id}">
+                                <img src="images/${relatedArticle.image}" alt="${relatedArticle.title}">
+                                <div>
+                                    <h3>${relatedArticle.title}</h3>
+                                    <p>${relatedArticle.introduction}</p>
+                                </div>
+                            </a>
+                        `;
+                        relatedArticlesContainer.appendChild(relatedArticleElement);
+                    }
+                });
+            } else {
+                const articleContainer = document.getElementById('article-content');
+                articleContainer.innerHTML = `<p>Article non trouvé.</p>`;
+            }
+
+            // Menu mobile
+            const menuBtn = document.getElementById('menu-btn');
+            const navMenu = document.getElementById('nav-menu');
+
+            menuBtn.addEventListener('click', () => {
+                navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+        function getRandomArticleIds(count, excludeId) {
+            const articleIds = articles.map(article => article.id).filter(id => id !== excludeId);
+            for (let i = articleIds.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [articleIds[i], articleIds[j]] = [articleIds[j], articleIds[i]];
+            }
+            return articleIds.slice(0, count);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Tech Horizons</h1>
+            <button class="menu-btn" id="menu-btn">☰</button>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html" data-theme="all">Accueil</a></li>
+                    <li><a href="index.html?theme=ia" data-theme="ia">IA</a></li>
+                    <li><a href="index.html?theme=french tech" data-theme="french tech">French Tech</a></li>
+                    <li><a href="index.html?theme=big tech" data-theme="big tech">Big Tech</a></li>
+                    <li><a href="index.html?theme=metaverse" data-theme="metaverse">Metaverse</a></li>
+                    <li><a href="index.html?theme=electronique" data-theme="electronique">Electronique</a></li>
+                    <li><a href="index.html?theme=chine" data-theme="chine">Chine</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        <div class="content-wrapper">
+            <div id="article-content" class="main-content">
+                <!-- Le contenu de l'article sera injecté ici par le JavaScript -->
+            </div>
+            <aside id="related-articles" class="related-content">
+                <!-- Les articles recommandés seront injectés ici par le JavaScript -->
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="about/tech-horizons.html">À propos de Tech Horizons</a></li>
+                <li><a href="about/policy.html">Politique de Confidentialité & Cookies</a></li>
+            </ul>
+            <p class ='p-reserved'>&copy; 2024 Tech Horizons. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Horizons</title>
+    <link rel="stylesheet" href="styles-home.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 id="site-title">Tech Horizons</h1>
+            <button class="menu-btn" id="menu-btn">☰</button>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="index.html" data-theme="all" id="current-page">Accueil</a></li>
+                    <li><a href="index.html?theme=ia" data-theme="ia">IA</a></li>
+                    <li><a href="index.html?theme=french tech" data-theme="french tech">French Tech</a></li>
+                    <li><a href="index.html?theme=big tech" data-theme="big tech">Big Tech</a></li>
+                    <li><a href="index.html?theme=metaverse" data-theme="metaverse">Metaverse</a></li>
+                    <li><a href="index.html?theme=electronique" data-theme="electronique">Electronique</a></li>
+                    <li><a href="index.html?theme=chine" data-theme="chine">Chine</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="search">
+            <input type="text" id="search-bar" placeholder="Rechercher des articles...">
+        </section>
+        <section id="latest-articles">
+            <h2 id="page-title">Articles Récents</h2>
+            <div class="articles">
+                <!-- Les articles seront injectés ici par le JavaScript -->
+            </div>
+            <div class="pagination">
+                <!-- Les boutons de pagination seront injectés ici par le JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="about/tech-horizons.html">À propos de Tech Horizons</a></li>
+                <li><a href="about/policy.html">Politique de Confidentialité & Cookies</a></li>
+            </ul>
+            <p class ='p-reserved'>&copy; 2024 Tech Horizons. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="z-articles-database.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const articlesContainer = document.querySelector('.articles');
+            const searchBar = document.getElementById('search-bar');
+            const navMenu = document.getElementById('nav-menu');
+            const paginationContainer = document.querySelector('.pagination');
+            const siteTitle = document.getElementById('site-title');
+            const pageTitle = document.getElementById('page-title');
+
+            let currentPage = 1;
+            const articlesPerPage = 9;
+            let filteredArticles = [...articles].reverse(); // Inversez une fois au chargement
+
+            const displayArticles = (articles, page = 1) => {
+                const startIndex = (page - 1) * articlesPerPage;
+                const endIndex = page * articlesPerPage;
+                const articlesToDisplay = articles.slice(startIndex, endIndex);
+
+                const fragment = document.createDocumentFragment();
+                articlesToDisplay.forEach(article => {
+                    const articleElement = document.createElement('div');
+                    articleElement.classList.add('article');
+
+                    articleElement.innerHTML = `
+                        <a href='article.html?id=${article.id}'>
+                            <img src="images/${article.image}" alt="${article.title}">
+                            <div class="article-content">
+                                <h3>${article.title}</h3>
+                                <p>${article.introduction}</p>
+                            </div>
+                        </a>
+                    `;
+                    fragment.appendChild(articleElement);
+                });
+
+                articlesContainer.innerHTML = '';
+                articlesContainer.appendChild(fragment);
+
+                addPaginationButtons(articles.length, page);
+            };
+
+            const addPaginationButtons = (totalArticles, currentPage) => {
+                paginationContainer.innerHTML = '';
+                const totalPages = Math.ceil(totalArticles / articlesPerPage);
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.disabled = i === currentPage;
+                    pageButton.addEventListener('click', () => {
+                        currentPage = i;
+                        displayArticles(filteredArticles, i);
+                    });
+                    paginationContainer.appendChild(pageButton);
+                }
+            };
+
+            const debounce = (func, wait) => {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), wait);
+                };
+            };
+
+            searchBar.addEventListener('input', debounce((e) => {
+                const searchQuery = e.target.value.toLowerCase();
+                filteredArticles = articles.filter(article => {
+                    const titleMatch = article.title.toLowerCase().includes(searchQuery);
+                    const themeMatch = article.themes.some(theme => theme.toLowerCase().includes(searchQuery));
+                    return titleMatch || themeMatch;
+                }).reverse(); // Refilter et reverse pour obtenir les plus récents
+                currentPage = 1;
+                displayArticles(filteredArticles, currentPage);
+            }, 300));
+
+            const queryParams = new URLSearchParams(window.location.search);
+            const theme = queryParams.get('theme');
+
+            if (theme) {
+                filteredArticles = articles.filter(article => 
+                    article.themes.includes(theme)
+                ).reverse();
+                const themeName = document.querySelector(`a[data-theme="${theme}"]`).textContent;
+                pageTitle.textContent = themeName;
+                siteTitle.textContent = `Tech Horizons - ${themeName}`;
+            } else {
+                pageTitle.textContent = "Articles Récents";
+                siteTitle.textContent = "Tech Horizons";
+                filteredArticles = [...articles].reverse();
+            }
+
+            navMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const theme = e.target.getAttribute('data-theme');
+                    if (theme === 'all') {
+                        filteredArticles = [...articles].reverse();
+                        pageTitle.textContent = "Articles Récents";
+                        siteTitle.textContent = "Tech Horizons";
+                    } else {
+                        filteredArticles = articles.filter(article => 
+                            article.themes.includes(theme)
+                        ).reverse();
+                        const themeName = e.target.textContent;
+                        pageTitle.textContent = themeName;
+                        siteTitle.textContent = `Tech Horizons - ${themeName}`;
+                    }
+                    currentPage = 1;
+                    displayArticles(filteredArticles, currentPage);
+                }
+            });
+
+            const menuBtn = document.getElementById('menu-btn');
+            menuBtn.addEventListener('click', () => {
+                navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Initial load
+            displayArticles(filteredArticles, currentPage);
+        });
+    </script>
+</body>
+</html>

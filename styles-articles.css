@@ -1,0 +1,279 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+a p {
+    color: black;
+    font-family: "The Antiqua B", Georgia, Droid-serif, serif;
+    font-size: 17px;
+}
+
+a h3 {
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    background-color: black;
+    color: #fff;
+    padding: 20px 0;
+    position: relative;
+    width: 100%;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header .menu-btn {
+    display: none;
+    font-size: 24px;
+    color: #fff;
+    background: none;
+    border: none;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px 0;
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+.main-content {
+    width: 75%;
+}
+
+.main-content img {
+    width: 75%;
+    height: auto;
+}
+
+.related-content {
+    width: 25%;
+}
+
+#article-content {
+    background-color: white;
+    padding-left: 15px;
+}
+
+#article-content p {
+    color: #222;
+    font-family: "The Antiqua B", Georgia, Droid-serif, serif;
+}
+
+.p-intro {
+    font-weight: bold;
+}
+
+.related-content h3 {
+    margin-top: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+.related-content p {
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-bottom: 12px;
+}
+
+.related-article {
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.related-article a {
+    text-decoration: none;
+}
+
+.related-article img {
+    width: 100%;
+    height: auto;
+}
+
+.related-article-content h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.related-article-content p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+@media (min-width: 769px) {
+    footer .footer-links {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 10px 0 0;
+    }
+
+    footer .footer-links li {
+        display: inline;
+    }
+
+    footer .footer-links li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 5px 10px;
+    }
+
+    footer .footer-links li a:hover {
+        text-decoration: underline;
+    }
+}
+
+/* Styles pour mobile */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+
+    .related-article a {
+        display: flex;
+        /*align-items: center; */
+        text-decoration: none;
+    }
+
+    .related-article div {
+        display: flex;
+        flex-direction: column;
+        /*justify-content: ;*/
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .related-content {
+        width: 100%;
+    }
+
+    .main-content {
+        padding-top: 0px;
+        width: 100%;
+    }
+
+    .main-content img {
+        width: 90%;
+    }
+
+    .related-article {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .related-article img {
+        width: 45%;
+        height: auto;
+    }
+
+    .related-article div {
+        width: 55%;
+        padding: 10px;
+    }
+
+    .related-article h3, .related-article p {
+        width: 100%;
+    }
+
+    header .menu-btn {
+        display: block;
+    }
+
+    header nav {
+        width: 80%;
+        height: 100vh;
+        display: none;
+        background-color: #333;
+        position: fixed;
+        top: 60px;
+        padding-top: 10px;
+        right: 0;
+        padding-bottom: 20px;
+        border-top: 1px solid white;
+    }
+
+    header nav ul {
+        display: block;
+        text-align: left;
+    }
+
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+        padding-right: 10px;
+        padding-left: 20px;
+    }
+
+    #current-page {
+        font-weight: bold;
+    }
+
+    footer {
+        text-align: start;
+    }
+
+    footer .footer-links li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    footer .footer-links{
+        padding-bottom:10px;
+       margin-left:20px;
+    }
+
+    footer .p-reserved{
+        margin-left: 40px;
+    }
+}
