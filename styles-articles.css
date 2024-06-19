@@ -92,8 +92,10 @@ main {
 }
 
 #article-content p {
-    color: #222;
-    font-family: "The Antiqua B", Georgia, Droid-serif, serif;
+    color: black;
+    font-family: Open Sans, Arial, sans-serif;
+    font-size: 1.1em;
+    width: 92%;
 }
 
 .p-intro {
