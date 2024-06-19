@@ -179,6 +179,9 @@ footer {
         width: 100%;
     }
 
+    main .container{
+        width:95%;
+    }
     #article-content p {
         width:100%;
     }
