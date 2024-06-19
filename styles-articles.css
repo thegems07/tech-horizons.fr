@@ -194,6 +194,10 @@ footer {
 
 /* Styles pour mobile */
 @media (max-width: 768px) {
+    body {
+        background-color:whitesmoke;
+    }
+    
     .container {
         width: 100%;
         padding: 0 15px;
@@ -202,6 +206,10 @@ footer {
     .related-article a {
         display: flex;
         text-decoration: none;
+    }
+
+    h2{
+        padding-top: 20px;
     }
 
     .related-article div {
