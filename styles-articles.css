@@ -70,7 +70,6 @@ main {
 
 .content-wrapper {
     display: flex;
-    gap: 20px;
 }
 
 .main-content {
