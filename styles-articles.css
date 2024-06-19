@@ -179,6 +179,9 @@ footer {
         width: 100%;
     }
 
+    #article-content p {
+        width:100%;
+    }
     .related-article a {
         display: flex;
         /*align-items: center; */
